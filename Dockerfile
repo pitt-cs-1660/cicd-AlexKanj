@@ -8,27 +8,27 @@ WORKDIR /app
 RUN pip install --upgrade pip && pip install poetry
 
 # Copy poetry files and install dependencies
-COPY . .
+COPY pyproject.toml poetry.lock ./
 
 # Ensure Poetry creates a virtual environment and installs dependencies
-RUN poetry config virtualenvs.create true && poetry install --no-root --no-interaction --no-ansi
+RUN poetry config virtualenvs.create true \&& poetry config virtualenvs.in-project true\&& poetry install --no-root --no-interaction --no-ansi
+
+COPY . .
 
 # Stage 2: Production image
 FROM python:3.11-buster AS prod
 
-WORKDIR /app
-
-# Copy application files
-COPY . .
-
 # Copy installed dependencies from the builder stage
 COPY --from=builder /app /app
+
+WORKDIR /app
+
+# Expose FastAPI port
+EXPOSE 8000
 
 # Set environment variable to use the virtual environment
 ENV PATH="/app/.venv/bin:$PATH"
 
-# # Ensure uvicorn is installed inside the container
-# RUN /app/.venv/bin/pip
+CMD ["uvicorn", "cc_compose.server:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
 
-# Expose FastAPI port
-EXPOSE 8000
+
