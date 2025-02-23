@@ -78,10 +78,8 @@ jobs:
          workload_identity_provider: 'projects/448579171251/locations/global/workloadIdentityPools/github/providers/my-repo' # update with your Workload Identity Pool
 
      # configure/login with docker
-      # - name: gcloud Configure Docker
-      #   run: gcloud auth configure-docker us-central1-docker.pkg.dev
-      - name: Authenticate Docker with gcloud
-        run: gcloud auth configure-docker --quiet
+      - name: gcloud Configure Docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
      # setup docker buildx
       - name: Setup docker buildx
