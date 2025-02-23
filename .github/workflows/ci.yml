@@ -98,4 +98,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: us-central1-docker.pkg.dev/cs1660-project2-451719/project2-repository/fastapi-server:v2
+          tags: us-central1-docker.pkg.dev/cs1660-project2-451719/project2-repository/fastapi-server
